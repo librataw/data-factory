@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/data_stream.iml" filepath="$PROJECT_DIR$/.idea/data_stream.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/data_stream_publisher.iml" filepath="$PROJECT_DIR$/.idea/data_stream_publisher.iml" />
     </modules>
   </component>
 </project>

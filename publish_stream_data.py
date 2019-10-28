@@ -12,7 +12,6 @@ channel_name = 'pubnub-twitter'
 pnconfig = PNConfiguration()
 pnconfig.subscribe_key = 'sub-c-78806dd4-42a6-11e4-aed8-02ee2ddab7fe'
 pnconfig.ssl = False
-
 pubnub = PubNub(pnconfig)
 
 my_listener = SubscribeListener()
@@ -20,7 +19,6 @@ pubnub.add_listener(my_listener)
 pubnub.subscribe().channels(channel_name).execute()
 my_listener.wait_for_connect()
 print('connected')
-
 
 client = boto3.client('kinesis')
 
@@ -31,7 +29,6 @@ while(counter < 5):
     response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='112asdfasdfas')
     print('Response: %s' % response)
     counter += 1
-
 
 pubnub.unsubscribe()
 print('unsubscribed')
