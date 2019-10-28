@@ -1,30 +1,39 @@
 #!./venv/bin/python
 
+from pubnub.pnconfiguration import PNConfiguration
+from pubnub.pubnub import PubNub, SubscribeListener
+
 import boto3
-import time
-import datetime
+
+import json
+
+channel_name = 'pubnub-twitter'
+
+pnconfig = PNConfiguration()
+pnconfig.subscribe_key = 'sub-c-78806dd4-42a6-11e4-aed8-02ee2ddab7fe'
+pnconfig.ssl = False
+
+pubnub = PubNub(pnconfig)
+
+my_listener = SubscribeListener()
+pubnub.add_listener(my_listener)
+pubnub.subscribe().channels(channel_name).execute()
+my_listener.wait_for_connect()
+print('connected')
+
 
 client = boto3.client('kinesis')
 
-response = client.describe_stream(StreamName='twitter-stream')
-print(response)
-print(response['StreamDescription']['Shards'][0])
-print(response['StreamDescription']['Shards'][1])
-print(response['StreamDescription']['Shards'][2])
-
-shard_id = response['StreamDescription']['Shards'][0]['ShardId']
-
-the_time = datetime.datetime.now()
-
-shard_iterator = client.get_shard_iterator(StreamName='twitter-stream', ShardId=shard_id,
-                                           ShardIteratorType='AFTER_SEQUENCE_NUMBER',
-                                           StartingSequenceNumber='49600701908632681759848763337425631711829410102084894722')['ShardIterator']
+counter = 0
+while(counter < 5):
+    Data = json.dumps(my_listener.wait_for_message_on(channel_name).message)
+    print('Data to be loaded: %s' % Data)
+    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='112asdfasdfas')
+    print('Response: %s' % response)
+    counter += 1
 
 
+pubnub.unsubscribe()
+print('unsubscribed')
 
-while(True):
-    record_response = client.get_records(ShardIterator=shard_iterator, Limit=1)
-    shard_iterator = record_response['NextShardIterator']
-    print(record_response)
-    time.sleep(1)
 
