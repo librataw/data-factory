@@ -26,7 +26,7 @@ counter = 0
 while(counter < 5):
     Data = json.dumps(my_listener.wait_for_message_on(channel_name).message)
     print('Data to be loaded: %s' % Data)
-    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='112asdfasdfas')
+    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='3355000000000000')
     print('Response: %s' % response)
     counter += 1
 
