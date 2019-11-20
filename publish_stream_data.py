@@ -4,7 +4,7 @@ from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub, SubscribeListener
 
 import boto3
-
+import time
 import json
 
 channel_name = 'pubnub-twitter'
@@ -23,11 +23,12 @@ print('connected')
 client = boto3.client('kinesis')
 
 counter = 0
-while(counter < 5):
+while(True):
     Data = json.dumps(my_listener.wait_for_message_on(channel_name).message)
     print('Data to be loaded: %s' % Data)
-    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='3355000000000000')
+    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='1')
     print('Response: %s' % response)
+    time.sleep(1)
     counter += 1
 
 pubnub.unsubscribe()
