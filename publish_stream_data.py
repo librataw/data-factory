@@ -23,10 +23,10 @@ print('connected')
 client = boto3.client('kinesis')
 
 counter = 0
-while(True):
+while(True and counter < 1):
     Data = json.dumps(my_listener.wait_for_message_on(channel_name).message)
     print('Data to be loaded: %s' % Data)
-    response = client.put_record(StreamName='twitter-stream', Data=Data, PartitionKey='1')
+    response = client.put_record(StreamName='TwitterDataStream', Data=Data, PartitionKey='1')
     print('Response: %s' % response)
     time.sleep(1)
     counter += 1

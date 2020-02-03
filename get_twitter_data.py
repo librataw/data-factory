@@ -2,6 +2,7 @@
 
 from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub, SubscribeListener
+import json
 
 
 channel_name = 'pubnub-twitter'
@@ -19,8 +20,9 @@ my_listener.wait_for_connect()
 print('connected')
 
 counter = 1
-while(counter < 100):
-    print(my_listener.wait_for_message_on(channel_name).message)
+while(counter <= 1):
+    result = json.dumps(my_listener.wait_for_message_on(channel_name).message)
+    print(result)
     counter += 1
 
 pubnub.unsubscribe()
