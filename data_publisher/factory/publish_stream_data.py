@@ -23,12 +23,11 @@ print('connected')
 client = boto3.client('kinesis')
 
 counter = 0
-while(True and counter < 1):
-    Data = json.dumps(my_listener.wait_for_message_on(channel_name).message)
-    print('Data to be loaded: %s' % Data)
-    response = client.put_record(StreamName='TwitterDataStream', Data=Data, PartitionKey='1')
-    print('Response: %s' % response)
-    time.sleep(1)
+while(True and counter < 10000):
+    data = my_listener.wait_for_message_on(channel_name).message
+    data_str = json.dumps(my_listener.wait_for_message_on(channel_name).message)
+    response = client.put_record(StreamName='TwitterDataStream', Data=data_str, PartitionKey='1')
+    print('Inserted id %s to shard id: %s' % (data['id'], response['ShardId']))
     counter += 1
 
 pubnub.unsubscribe()
