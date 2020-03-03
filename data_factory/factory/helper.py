@@ -5,7 +5,7 @@ class ObjectFactory:
     def register_handler(self, provider, handler):
         self._handlers[provider] = handler
 
-    def create_handler(self, provider, **kwargs):
+    def get_handler(self, provider, **kwargs):
         handler = self._handlers.get(provider)
         if not handler:
             raise ValueError(provider)
