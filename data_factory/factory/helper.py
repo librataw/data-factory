@@ -11,3 +11,5 @@ class ObjectFactory:
             raise ValueError(provider)
         return handler(**kwargs)
 
+    def get_handlers(self):
+        return list(self._handlers.keys())

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from data_factory.factory import source
+from data_factory.factory import sources
 
 
 config = {
@@ -8,5 +8,8 @@ config = {
     'use_ssl': False
 }
 
-twitter_pubnub = source.factory.get_handler('TwitterPubnub', **config)
+handlers = sources.factory.get_handlers()
+import pdb;pdb.set_trace()
+
+twitter_pubnub = sources.factory.get_handler('TwitterPubnub', **config)
 twitter_pubnub.fetch_data(limit=2)

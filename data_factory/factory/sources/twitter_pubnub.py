@@ -4,7 +4,7 @@ from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub, SubscribeListener
 
 from data_factory.factory.base import FactoryBase
-from data_factory.factory.helper import ObjectFactory
+
 
 
 class TwitterPubnub(FactoryBase):
@@ -45,5 +45,3 @@ class TwitterPubnubHandler:
         return self.instance
 
 
-factory = ObjectFactory()
-factory.register_handler('TwitterPubnub', TwitterPubnubHandler())
